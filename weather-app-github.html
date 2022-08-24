@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather App</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="src/styles.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200&family=Square+Peg&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;400;500&family=Square+Peg&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+h1 {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  margin: 60px;
+  margin-bottom: -10px;
+  padding: 15px 0px 15px 0px;
+  font-family: "Roboto Slab", serif;
+  font-size: 80px;
+}
+
+h2 {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  font-family: "Square Peg", cursive;
+  letter-spacing: 10px;
+  font-size: 90px;
+  text-transform: lowercase;
+  text-shadow: 2px 2px 4px #011135;
+}
+
+h3 {
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+h4 {
+    color: white;
+    font-size: 30px;
+    font-family: "Roboto Slab", serif;
+
+}
+
+p {
+    color: white;
+    font-size: 20px;
+    font-family: "Roboto Slab", serif;
+    text-align: center;
+
+}
+
+body {
+  background: linear-gradient(
+    0deg,
+    rgba(130, 220, 236, 1) 0%,
+    rgba(49, 58, 142, 1) 100%
+  );
+  min-height: 100vh;
+}
+
+input {
+  text-align: center;
+}
+
+.temperature {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  font-family: "Square Peg", cursive;
+  font-size: 30px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+.day {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  font-family: "Roboto Slab", serif;
+  font-size: 20px;
+  text-transform: lowercase;
+  letter-spacing: 4px;
+}
+
+.emoji {
+  display: block;
+  margin: 0 auto;
+  font-size: 50px;
+}
+
+.container {
+    border: 1px solid #dadde1;
+    margin: 20px auto;
+    border-radius: 20px;
+    max-width: 900px;
+    background: rgba(211, 227, 230, 0.6);
+    backdrop-filter: saturate(180%) blur(10px);
+}
+
+.cols-7,
+.col {
+  color: rgb(49, 58, 142, 1);
+  font-family: "Roboto Slab", serif;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+.col-2 {
+  margin: 0 auto;
+  font-size: 20px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-family: "Roboto Slab", serif;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+          <h1>
+            weather this week
+          </h1>
+          <br />
+          <div class="current-city">
+            <h2 id="city"></h2>
+          </div>
+          <div class="day">
+            <h3 id="date"></h3>
+          </div>
+          <div class="temperature">
+            <h4 id="cur"></h4>
+          </div>
+          <form class="search-form" id="search-form">
+              <div class="row">
+              <div class="col-6">
+                <input
+                  type="search"
+                  placeholder="Type a city.."
+                  autofocus="on"
+                  autocomplete="off"
+                  id="city-input"
+                  class="form-control shadow-sm"
+                />
+              </div>
+              <div class="col-3">
+                <input
+                  type="submit"
+                  value="Search"
+                  class="form-control btn btn-primary shadow-sm w-100"
+                />
+              </div>
+              <div class="col-3">
+                  <button
+                    class="btn btn-success w-100"
+                    id="current-location-button">
+                    Current
+                  </button>
+                </div>
+          </form>
+        </div>
+          <br />
+          <div class="row row-cols-7">
+            <div class="col">
+              Sun<br />
+              <span class="emoji">☁️</span>
+              <span class="temp">84°</span>
+            </div>
+            <div class="col">
+              Mon<br />
+              <span class="emoji">☁️</span>
+              <span class="temp">79°</span>
+            </div>
+            <div class="col">
+              Tues<br />
+              <span class="emoji">☁️</span>
+              <span class="temp">82°</span>
+            </div>
+            <div class="col">
+              Wed<br />
+              <span class="emoji">🌥️</span>
+              <span class="temp">85°</span>
+            </div>
+            <div class="col">
+              Thurs<br />
+              <span class="emoji">🌧️</span>
+              <span class="temp">89°</span>
+            </div>
+            <div class="col">
+              Fri<br />
+              <span class="emoji">🌧️</span>
+              <span class="temp">87°</span>
+            </div>
+            <div class="col">
+              Sat<br />
+              <span class="emoji">🌧️</span>
+              <span class="temp">89°</span>
+            </div>
+          </div>
+        </div>
+        <p>
+            open-source code by Olivia Battani
+        </p>
+    <script>
+        function formatDate(date) {
+  let hours = date.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = date.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
+  let dayIndex = date.getDay();
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ];
+  let day = days[dayIndex];
+
+  return `${day} ${hours}:${minutes}`;
+}
+
+function displayWeatherCondition(response) {
+  document.querySelector("#city").innerHTML = response.data.name;
+  document.querySelector("#cur").innerHTML = Math.round(
+    response.data.main.temp
+  );
+}
+
+function searchCity(city) {
+  let apiKey = "aab16a7c434165eb114da586b447742a";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayWeatherCondition);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  let city = document.querySelector("#city-input").value;
+  searchCity(city);
+}
+
+function searchLocation(position) {
+  let apiKey = "aab16a7c434165eb114da586b447742a";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayWeatherCondition);
+}
+
+function getCurrentLocation(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition(searchLocation);
+}
+
+function convertToFahrenheit(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#temperature");
+  temperatureElement.innerHTML = 20;
+}
+
+let searchForm = document.querySelector("#search-form");
+searchForm.addEventListener("submit", handleSubmit);
+
+let currentLocationButton = document.querySelector("#current-location-button");
+currentLocationButton.addEventListener("click", getCurrentLocation);
+
+searchCity("philadelphia");
+    </script>
+  </body>
+</html>
