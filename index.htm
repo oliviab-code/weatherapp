@@ -32,8 +32,8 @@ h1 {
   margin-bottom: -10px;
   padding: 15px 0px 15px 0px;
   font-family: "Roboto Slab", serif;
-  font-size: 80px;
-  text-shadow: 2px 2px 4px #062b15;
+  font-size: 90px;
+  text-shadow: 2px 2px 4px #0e3a21;
 }
 
 h2 {
@@ -41,7 +41,7 @@ h2 {
   text-align: center;
   font-family: "Square Peg", cursive;
   letter-spacing: 10px;
-  font-size: 90px;
+  font-size: 80px;
   text-transform: lowercase;
 }
 
@@ -49,30 +49,21 @@ h3 {
   text-align: center;
   color: rgb(255, 255, 255);
 }
-h4 {
-    color: white;
-    font-size: 30px;
-    font-family: "Roboto Slab", serif;
-
-}
 
 p {
-    color: white;
-    font-size: 20px;
-    font-family: "Roboto Slab", serif;
-    text-align: center;
-
+  text-align: center;
+  color: rgb(13, 58, 33);
+  font-family: "Roboto Slab", serif;
 }
-
 
 input {
   text-align: center;
 }
 
 .temperature {
-  color: rgb(255, 255, 255);
+  color: rgb(13, 58, 33);
   text-align: center;
-  font-family: "Square Peg", cursive;
+  font-family: "Roboto Slab", serif;
   font-size: 30px;
   text-transform: uppercase;
   letter-spacing: 4px;
@@ -91,14 +82,17 @@ input {
   margin: 0 auto;
   font-size: 50px;
 }
-
+#search {
+  display: block;
+  margin: 20px 20px 20px 80px;
+}
 .container {
-    border: 1px solid #dadde1;
-    margin: 20px auto;
-    border-radius: 20px;
-    max-width: 900px;
-    background: rgba(219, 231, 212, 0.6);
-    backdrop-filter: saturate(180%) blur(10px);
+  border: 1px solid #08182c;
+  margin: 20px auto;
+  border-radius: 20px;
+  max-width: 1000px;
+  background: rgba(219, 231, 212, 0.6);
+  backdrop-filter: saturate(180%) blur(10px);
 }
 
 .cols-7,
@@ -106,9 +100,7 @@ input {
   color: rgb(13, 58, 33);
   font-family: "Roboto Slab", serif;
   font-size: 20px;
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 40px;
+  margin: 10px 30px 40px 30px;
 }
 
 .col-2 {
@@ -122,7 +114,7 @@ input {
     </style>
   </head>
   <body background="images/flower.png">
-    <div class="container">
+ <div class="container">
           <h1>
             weather this week
           </h1>
@@ -134,8 +126,12 @@ input {
             <h3 id="date"></h3>
           </div>
           <div class="temperature">
-            <h4 id="cur"></h4>
-          </div>
+              <span id="cur"></span>
+              <span class="units">
+                <a href="#" id="celsius-link">°C |</a>
+                <a href="#" id="fahrenheit-link">°F</a>
+              </span>
+            </div>            
           <form class="search-form" id="search-form">
               <div class="row">
               <div class="col-6">
@@ -203,12 +199,11 @@ input {
             </div>
           </div>
         </div>
-          <p>
-           <a href= "https://github.com/oliviab-code/weatherapp"> open-source code by Olivia Battani
-            </a>
-          </p>  
+        <p>
+        <a href="https://github.com/oliviab-code/weatherapp"> open-source code by Olivia Battani</a>
+        </p>  
      <script>
-        function formatDate(date) {
+       function formatDate(date) {
   let hours = date.getHours();
   if (hours < 10) {
     hours = `0${hours}`;
@@ -235,9 +230,9 @@ input {
 
 function displayWeatherCondition(response) {
   document.querySelector("#city").innerHTML = response.data.name;
-  document.querySelector("#cur").innerHTML = Math.round(
-    response.data.main.temp
-  );
+  document.querySelector("#cur").innerHTML = Math.round(celciusTemperature);
+
+  celciusTemperature = response.data.main.temp;
 }
 
 function searchCity(city) {
@@ -263,17 +258,23 @@ function getCurrentLocation(event) {
   navigator.geolocation.getCurrentPosition(searchLocation);
 }
 
-function convertToFahrenheit(event) {
-  event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-  temperatureElement.innerHTML = 20;
-}
-
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", handleSubmit);
 
 let currentLocationButton = document.querySelector("#current-location-button");
 currentLocationButton.addEventListener("click", getCurrentLocation);
+
+function getFahrenheitTemperature(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#temperature");
+  let fahrenheitTemperature = (celciusTemperature * 9) / 5 + 32;
+  temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
+}
+
+let celciusTemperature = null;
+
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", getFahrenheitTemperature);
 
 searchCity("philadelphia");
     </script>
