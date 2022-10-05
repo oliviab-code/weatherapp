@@ -95,6 +95,13 @@ input {
   backdrop-filter: saturate(180%) blur(10px);
 }
 
+      
+.wind {
+  color: rgb(13, 58, 33);
+  font-family: "Roboto Slab", serif;
+  font-size: 20px;
+}
+      
 .cols-7,
 .col {
   color: rgb(13, 58, 33);
@@ -131,7 +138,10 @@ input {
                 <a href="#" id="celsius-link">°C |</a>
                 <a href="#" id="fahrenheit-link">°F</a>
               </span>
-            </div>            
+            </div>
+             <div class="windspeed">
+            <p> Wind: <span id="wind"></span> km/h</p>
+          </div> 
           <form class="search-form" id="search-form">
               <div class="row">
               <div class="col-6">
@@ -229,10 +239,11 @@ input {
 }
 
 function displayWeatherCondition(response) {
+  let windElement = document.querySelector("#wind");
+  windElement.innerHTML = response.data.wind.speed;
+  celciusTemperature = response.data.main.temp;
   document.querySelector("#city").innerHTML = response.data.name;
   document.querySelector("#cur").innerHTML = Math.round(celciusTemperature);
-
-  celciusTemperature = response.data.main.temp;
 }
 
 function searchCity(city) {
@@ -266,7 +277,7 @@ currentLocationButton.addEventListener("click", getCurrentLocation);
 
 function getFahrenheitTemperature(event) {
   event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
+  let temperatureElement = document.querySelector("#cur");
   let fahrenheitTemperature = (celciusTemperature * 9) / 5 + 32;
   temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
 }
